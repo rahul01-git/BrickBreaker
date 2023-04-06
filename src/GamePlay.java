@@ -1,8 +1,7 @@
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -40,7 +39,7 @@ public class GamePlay extends JPanel implements KeyListener,  ActionListener{
         g.setColor(Color.yellow);
         g.fillRect(0, 0, 3, 592);
         g.fillRect(0, 0, 692, 3);
-        g.fillRect(691, 0, 3, 592);
+        g.fillRect(680, 0, 4, 592);
 
         g.setColor(Color.blue);
         g.fillRect(playerX, 550, 100, 8);
@@ -53,6 +52,18 @@ public class GamePlay extends JPanel implements KeyListener,  ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         timer.start();
+        if(play){
+            if(new Rectangle(ballPosX,ballPosY,20,30).intersects(new Rectangle(playerX,550,100,8))){
+                ballYdir = -ballYdir;
+            }
+
+            ballPosX += ballXdir;
+            ballPosY += ballYdir;
+
+            if(ballPosY<0) ballYdir*=-1;
+            if(ballPosX<0) ballXdir*=-1;
+            if(ballPosX>670) ballXdir*=-1;
+        }
         repaint();
     }
 
@@ -64,7 +75,7 @@ public class GamePlay extends JPanel implements KeyListener,  ActionListener{
     @Override
     public void keyPressed(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-            if(playerX >= 600) playerX = 600;
+            if(playerX >= 580) playerX = 580;
             else moveRight();
         }
         if(e.getKeyCode() == KeyEvent.VK_LEFT){
