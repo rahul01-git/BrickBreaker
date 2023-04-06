@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.security.Key;
 
 public class GamePlay extends JPanel implements KeyListener,  ActionListener{
 
@@ -50,6 +51,36 @@ public class GamePlay extends JPanel implements KeyListener,  ActionListener{
 
         g.setColor(Color.green);
         g.fillOval(ballPosX, ballPosY, 20, 20);
+
+        g.setColor(Color.black);
+        g.setFont(new Font("serif",Font.BOLD,25));
+        g.drawString(""+score,590,30);
+
+        if (totalBricks <= 0) {
+            play = false;
+            ballXdir = 0;
+            ballYdir = 0;
+
+            g.setColor(Color.green);
+            g.setFont(new Font("serif",Font.BOLD,30));
+            g.drawString("You Won 🏆, Score: "+score,190,300);
+
+            g.setFont(new Font("serif",Font.BOLD,20));
+            g.drawString("Press Enter to Restart !",230,350);
+        }
+
+        if(ballPosY > 570){
+            play = false;
+            ballXdir = 0;
+            ballYdir = 0;
+
+            g.setColor(Color.red);
+            g.setFont(new Font("serif",Font.BOLD,30));
+            g.drawString("Game Over 😓, Score: "+score,190,300);
+
+            g.setFont(new Font("serif",Font.BOLD,20));
+            g.drawString("Press Enter to Restart !",230,350);
+        }
 
         g.dispose();
     }
@@ -110,7 +141,19 @@ public class GamePlay extends JPanel implements KeyListener,  ActionListener{
             if(playerX <= 10) playerX = 10;
             else moveLeft();
         }
-        
+        if(!play){
+            if(e.getKeyCode() == KeyEvent.VK_ENTER){
+                play = true;
+                ballPosX = 120;
+                ballPosY = 350;
+                ballXdir = -1;
+                ballYdir = -2;
+                score =  0;
+                totalBricks = 21;
+                mapGenerator = new MapGenerator(3,7);
+                repaint();
+            }
+        }
     }
 
     public void moveLeft(){
