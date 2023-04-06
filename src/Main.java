@@ -9,5 +9,6 @@ public class Main{
         obj.setResizable(false);
         obj.setVisible(true);
         obj.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        obj.add(gamePlay);
     }
 }
